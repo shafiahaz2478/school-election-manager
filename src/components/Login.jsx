@@ -1,8 +1,6 @@
 import { useState } from "react";
 
-const baseUrl = "http://localhost:5000/api";
-
-const Login = ({ onLogin }) => {
+const Login = ({ baseUrl, onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
