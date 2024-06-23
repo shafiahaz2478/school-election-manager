@@ -31,12 +31,15 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-height: 100vh;
 }
 
 #root {
   min-width: 100vw;
+}
+
+#root * {
+  text-align: center;
 }
 
 h1 {
