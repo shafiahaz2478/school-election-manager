@@ -13,7 +13,7 @@ export default function Sessions({ authToken }) {
   });
 
   const fetchSessions = async () => {
-    const response = await fetch(`${baseUrl}/sessions`);
+    const response = await fetch(`${baseUrl}/api/sessions`);
     const data = await response.json();
     setSessions(data.sessions);
   };
@@ -30,7 +30,7 @@ export default function Sessions({ authToken }) {
 
     setNewSession({ grade: "", division: "" });
 
-    const response = await fetch(`${baseUrl}/sessions`, {
+    const response = await fetch(`${baseUrl}/api/sessions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export default function Sessions({ authToken }) {
   };
 
   const handleRemoveSession = async (id) => {
-    await fetch(`${baseUrl}/sessions/${id}`, {
+    await fetch(`${baseUrl}/api/sessions/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${authToken}`,

@@ -7,7 +7,7 @@ import AppContext from "./AppContext.js";
 import routes from "./routes.jsx";
 
 function App() {
-  const [baseUrl, setBaseUrl] = useState("http://localhost:5000/api");
+  const [baseUrl, setBaseUrl] = useState("http://localhost:5000");
 
   const router = createBrowserRouter(routes);
 

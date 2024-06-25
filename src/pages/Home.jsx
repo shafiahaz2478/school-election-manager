@@ -1,23 +1,13 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 
 import Header from "../components/Header";
-import AppContext from "../AppContext.js";
+import BackendConnection from "../components/BackendConnection.jsx";
 
 export default function Home() {
-  const { baseUrl, setBaseUrl } = useContext(AppContext);
-
   return (
     <div>
       <Header />
-      <div>
-        <h3>Backend URL</h3>
-        <input
-          type="text"
-          value={baseUrl}
-          onChange={(e) => setBaseUrl(e.target.value)}
-        />
-      </div>
+      <BackendConnection />
       <Link to="admin" className="link">
         Admin Portal
       </Link>

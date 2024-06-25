@@ -9,7 +9,7 @@ export default function Positions({ authToken }) {
 
   const fetchPositions = async () => {
     try {
-      const response = await fetch(`${baseUrl}/positions`);
+      const response = await fetch(`${baseUrl}/api/positions`);
       const data = await response.json();
       console.log("Fetched positions");
       setPositions(data.positions);
@@ -26,7 +26,7 @@ export default function Positions({ authToken }) {
   const handleAddPosition = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${baseUrl}/positions`, {
+      const response = await fetch(`${baseUrl}/api/positions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -77,7 +77,7 @@ function Position({ position, authToken, fetchPositions }) {
 
   const handleRemovePosition = async () => {
     try {
-      const response = await fetch(`${baseUrl}/positions/${position._id}`, {
+      const response = await fetch(`${baseUrl}/api/positions/${position._id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ function Candidates({ position, authToken }) {
 
   const fetchCandidates = async () => {
     try {
-      const response = await fetch(`${baseUrl}/candidates`);
+      const response = await fetch(`${baseUrl}/api/candidates`);
       const data = await response.json();
       console.log("Fetched candidates");
       setCandidates(
@@ -133,7 +133,7 @@ function Candidates({ position, authToken }) {
   const handleAddCandidate = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${baseUrl}/candidates`, {
+      const response = await fetch(`${baseUrl}/api/candidates`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -152,7 +152,7 @@ function Candidates({ position, authToken }) {
 
   const handleRemoveCandidate = async (candidateId) => {
     try {
-      const response = await fetch(`${baseUrl}/candidates/${candidateId}`, {
+      const response = await fetch(`${baseUrl}/api/candidates/${candidateId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

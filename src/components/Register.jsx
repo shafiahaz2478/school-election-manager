@@ -17,7 +17,7 @@ const Register = ({ onLogin }) => {
     }
 
     try {
-      const response = await fetch(`${baseUrl}/auth/register`, {
+      const response = await fetch(`${baseUrl}/api/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, role: "admin" }),
@@ -26,7 +26,7 @@ const Register = ({ onLogin }) => {
       if (data.message) {
         alert("Registration successful. Logging you in...");
 
-        const loginResponse = await fetch(`${baseUrl}/auth/login`, {
+        const loginResponse = await fetch(`${baseUrl}/api/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, password }),
