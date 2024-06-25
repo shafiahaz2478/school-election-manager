@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Positions from "../components/Positions";
+import Results from "../components/Results";
 
 import "../styles/Admin.css";
 import Sessions from "../components/Sessions";
@@ -13,8 +14,7 @@ import AppContext from "../AppContext";
 export default function Admin() {
   const [isRegistering, setIsRegistering] = useState(false);
 
-  const { loggedIn, setLoggedIn, authToken, setAuthToken } =
-    useContext(AppContext);
+  const { loggedIn, setLoggedIn, setAuthToken } = useContext(AppContext);
 
   const handleLogin = (token) => {
     setAuthToken(token);
@@ -30,8 +30,9 @@ export default function Admin() {
       <div>
         {loggedIn ? (
           <div>
-            <Positions authToken={authToken} />
-            <Sessions authToken={authToken} />
+            <Positions />
+            <Sessions />
+            <Results />
           </div>
         ) : isRegistering ? (
           <div>
