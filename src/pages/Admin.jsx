@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import Login from "../components/Login";
 import Register from "../components/Register";
@@ -8,12 +8,13 @@ import Positions from "../components/Positions";
 import "../styles/Admin.css";
 import Sessions from "../components/Sessions";
 import Header from "../components/Header";
+import AppContext from "../AppContext";
 
 export default function Admin() {
-  const [authToken, setAuthToken] = useState(null);
-
-  const [loggedIn, setLoggedIn] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
+
+  const { loggedIn, setLoggedIn, authToken, setAuthToken } =
+    useContext(AppContext);
 
   const handleLogin = (token) => {
     setAuthToken(token);

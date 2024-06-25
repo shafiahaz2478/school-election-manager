@@ -1,5 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { useContext, useState } from "react";
 
 import AppContext from "../AppContext.js";
 
@@ -11,25 +10,7 @@ export default function BackendConnection() {
   const handleNewConnection = (e) => {
     e.preventDefault();
     setBaseUrl(connectionUrl);
-
-    const socket = io(connectionUrl);
-
-    socket.on("connect", () => {
-      console.log(`Connected to WebSocket server: ${connectionUrl}`);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Disconnected from WebSocket server");
-    });
   };
-
-  const handleNewConnectionCallback = useCallback(handleNewConnection, [
-    connectionUrl,
-    setBaseUrl,
-  ]);
-  useEffect(() => {
-    handleNewConnectionCallback(new Event("submit"));
-  }, [handleNewConnectionCallback]);
 
   return (
     <div>

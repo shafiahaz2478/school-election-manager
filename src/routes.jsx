@@ -1,21 +1,23 @@
 import Admin from "./pages/Admin";
-import Vote from "./pages/Vote";
-import PageNotFound from "./pages/PageNotFound";
+import Election from "./pages/Election";
 import Home from "./pages/Home";
+import ErrorElement from "./components/ErrorElement";
 
 const routes = [
   {
     path: "/",
     element: <Home />,
-    errorElement: <PageNotFound />,
+    errorElement: <ErrorElement />,
   },
   {
     path: "admin",
     element: <Admin />,
+    errorElement: <ErrorElement />,
   },
   {
     path: "vote",
-    element: <Vote />,
+    element: <Election />,
+    errorElement: <ErrorElement />,
   },
 ];
 

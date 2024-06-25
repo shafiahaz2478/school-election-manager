@@ -1,11 +1,11 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import AppContext from "../AppContext.js";
 
-export default function Positions({ authToken }) {
+export default function Positions() {
   const [positions, setPositions] = useState([]);
   const [newPosition, setNewPosition] = useState("");
 
-  const { baseUrl } = useContext(AppContext);
+  const { baseUrl, authToken } = useContext(AppContext);
 
   const fetchPositions = async () => {
     try {
@@ -50,11 +50,7 @@ export default function Positions({ authToken }) {
       <ol>
         {positions.map((position) => (
           <li key={position._id}>
-            <Position
-              position={position}
-              authToken={authToken}
-              fetchPositions={fetchPositions}
-            />
+            <Position position={position} fetchPositions={fetchPositions} />
           </li>
         ))}
       </ol>
@@ -72,8 +68,8 @@ export default function Positions({ authToken }) {
   );
 }
 
-function Position({ position, authToken, fetchPositions }) {
-  const { baseUrl } = useContext(AppContext);
+function Position({ position, fetchPositions }) {
+  const { baseUrl, authToken } = useContext(AppContext);
 
   const handleRemovePosition = async () => {
     try {
@@ -95,17 +91,19 @@ function Position({ position, authToken, fetchPositions }) {
   return (
     <>
       <h3>{position.name}</h3>
-      <Candidates position={position} authToken={authToken} />
+      <Candidates position={position} />
       <button onClick={() => handleRemovePosition(position._id)}>Remove</button>
     </>
   );
 }
 
-function Candidates({ position, authToken }) {
-  const { baseUrl } = useContext(AppContext);
+function Candidates({ position }) {
+  const { baseUrl, authToken } = useContext(AppContext);
 
   const [candidates, setCandidates] = useState([]);
   const [newCandidate, setNewCandidate] = useState("");
+  const [newGrade, setNewGrade] = useState("");
+  const [newDivision, setNewDivision] = useState("");
 
   const fetchCandidates = async () => {
     try {
@@ -139,12 +137,20 @@ function Candidates({ position, authToken }) {
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
         },
-        body: JSON.stringify({ name: newCandidate, positionId: position._id }),
+        body: JSON.stringify({
+          name: newCandidate,
+          grade: newGrade,
+          division: newDivision,
+          positionId: position._id,
+        }),
       });
       const data = await response.json();
       alert(data.message || data.error);
       fetchCandidates();
+
       setNewCandidate("");
+      setNewGrade("");
+      setNewDivision("");
     } catch (error) {
       console.error("Error adding candidate:", error);
     }
@@ -172,7 +178,9 @@ function Candidates({ position, authToken }) {
       <ul>
         {candidates.map((candidate) => (
           <li key={candidate._id}>
-            <p>{candidate.name}</p>
+            <p>
+              {candidate.name}, {candidate.grade} {candidate.division}
+            </p>
             <button onClick={() => handleRemoveCandidate(candidate._id)}>
               Remove
             </button>
@@ -185,6 +193,22 @@ function Candidates({ position, authToken }) {
           placeholder="Candidate"
           value={newCandidate}
           onChange={(e) => setNewCandidate(e.target.value)}
+          required
+        />
+        <input
+          type="number"
+          min="0"
+          max="12"
+          placeholder="Grade"
+          value={newGrade}
+          onChange={(e) => setNewGrade(e.target.value)}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Grade"
+          value={newDivision}
+          onChange={(e) => setNewDivision(e.target.value)}
           required
         />
         <button type="submit">Add Candidate</button>

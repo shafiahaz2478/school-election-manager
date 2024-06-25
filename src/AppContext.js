@@ -1,8 +1,5 @@
 import { createContext } from "react";
 
-const AppContext = createContext({
-  baseUrl: "",
-  setBaseUrl: () => {},
-});
+const AppContext = createContext();
 
 export default AppContext;
