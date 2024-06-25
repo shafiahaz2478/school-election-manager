@@ -1,14 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import AppContext from "../AppContext.js";
 
-export default function Positions({ baseUrl, authToken }) {
+export default function Positions({ authToken }) {
   const [positions, setPositions] = useState([]);
   const [newPosition, setNewPosition] = useState("");
 
+  const { baseUrl } = useContext(AppContext);
+
   const fetchPositions = async () => {
     try {
-      const response = await fetch(`${baseUrl}/positions`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await fetch(`${baseUrl}/positions`);
       const data = await response.json();
       console.log("Fetched positions");
       setPositions(data.positions);
@@ -17,10 +18,7 @@ export default function Positions({ baseUrl, authToken }) {
     }
   };
 
-  const fetchPositionsCallback = useCallback(fetchPositions, [
-    baseUrl,
-    authToken,
-  ]);
+  const fetchPositionsCallback = useCallback(fetchPositions, [baseUrl]);
   useEffect(() => {
     fetchPositionsCallback();
   }, [fetchPositionsCallback]);
@@ -54,7 +52,6 @@ export default function Positions({ baseUrl, authToken }) {
           <li key={position._id}>
             <Position
               position={position}
-              baseUrl={baseUrl}
               authToken={authToken}
               fetchPositions={fetchPositions}
             />
@@ -75,7 +72,9 @@ export default function Positions({ baseUrl, authToken }) {
   );
 }
 
-function Position({ position, baseUrl, authToken, fetchPositions }) {
+function Position({ position, authToken, fetchPositions }) {
+  const { baseUrl } = useContext(AppContext);
+
   const handleRemovePosition = async () => {
     try {
       const response = await fetch(`${baseUrl}/positions/${position._id}`, {
@@ -96,21 +95,21 @@ function Position({ position, baseUrl, authToken, fetchPositions }) {
   return (
     <>
       <h3>{position.name}</h3>
-      <Candidates position={position} baseUrl={baseUrl} authToken={authToken} />
+      <Candidates position={position} authToken={authToken} />
       <button onClick={() => handleRemovePosition(position._id)}>Remove</button>
     </>
   );
 }
 
-function Candidates({ position, baseUrl, authToken }) {
+function Candidates({ position, authToken }) {
+  const { baseUrl } = useContext(AppContext);
+
   const [candidates, setCandidates] = useState([]);
   const [newCandidate, setNewCandidate] = useState("");
 
   const fetchCandidates = async () => {
     try {
-      const response = await fetch(`${baseUrl}/candidates`, {
-        headers: { Authorization: `Bearer ${authToken}` },
-      });
+      const response = await fetch(`${baseUrl}/candidates`);
       const data = await response.json();
       console.log("Fetched candidates");
       setCandidates(
@@ -125,7 +124,6 @@ function Candidates({ position, baseUrl, authToken }) {
 
   const fetchCandidatesCallback = useCallback(fetchCandidates, [
     baseUrl,
-    authToken,
     position._id,
   ]);
   useEffect(() => {

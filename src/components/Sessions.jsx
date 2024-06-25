@@ -1,7 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
-export default function Sessions({ baseUrl, authToken }) {
+import AppContext from "../AppContext.js";
+
+export default function Sessions({ authToken }) {
   const [sessions, setSessions] = useState(null);
+
+  const { baseUrl } = useContext(AppContext);
 
   const [newSession, setNewSession] = useState({
     grade: "",
@@ -9,20 +13,12 @@ export default function Sessions({ baseUrl, authToken }) {
   });
 
   const fetchSessions = async () => {
-    const response = await fetch(`${baseUrl}/sessions`, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    });
+    const response = await fetch(`${baseUrl}/sessions`);
     const data = await response.json();
     setSessions(data.sessions);
-    console.log(data.sessions);
   };
 
-  const fetchSessionsCallback = useCallback(fetchSessions, [
-    baseUrl,
-    authToken,
-  ]);
+  const fetchSessionsCallback = useCallback(fetchSessions, [baseUrl]);
   useEffect(() => {
     fetchSessionsCallback();
   }, [fetchSessionsCallback]);
@@ -31,6 +27,9 @@ export default function Sessions({ baseUrl, authToken }) {
     e.preventDefault();
     const grade = e.target.grade.value;
     const division = e.target.division.value;
+
+    setNewSession({ grade: "", division: "" });
+
     const response = await fetch(`${baseUrl}/sessions`, {
       method: "POST",
       headers: {
@@ -40,9 +39,13 @@ export default function Sessions({ baseUrl, authToken }) {
       body: JSON.stringify({ grade, division }),
     });
     const data = await response.json();
+
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+
     setSessions([...sessions, data.session]);
-    setNewSession({ grade: "", division: "" });
-    console.log(data.session);
   };
 
   const handleRemoveSession = async (id) => {

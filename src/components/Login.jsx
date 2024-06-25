@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
-const Login = ({ baseUrl, onLogin }) => {
+import AppContext from "../AppContext.js";
+
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { baseUrl } = useContext(AppContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();

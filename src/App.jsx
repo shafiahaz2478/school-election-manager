@@ -1,17 +1,20 @@
-import "./App.css";
+import "./styles/App.css";
 
-import { Outlet } from "react-router-dom";
+import { useState } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import AppContext from "./AppContext.js";
+import routes from "./routes.jsx";
 
 function App() {
+  const [baseUrl, setBaseUrl] = useState("http://localhost:5000/api");
+
+  const router = createBrowserRouter(routes);
+
   return (
-    <div>
-      <header className="school">
-        <img src="/gps.png" alt="GPS Logo" className="logo" />
-        <h1>Greenwoods Public School</h1>
-      </header>
-      <h2>Prefectorial Board Election</h2>
-      <Outlet />
-    </div>
+    <AppContext.Provider value={{ baseUrl, setBaseUrl }}>
+      <RouterProvider router={router} />
+    </AppContext.Provider>
   );
 }
 
