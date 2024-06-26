@@ -1,18 +1,17 @@
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 import Login from "../components/Login";
-import Register from "../components/Register";
+// import Register from "../components/Register";
 import Positions from "../components/Positions";
 import Results from "../components/Results";
 
 import "../styles/Admin.css";
-import Sessions from "../components/Sessions";
 import Header from "../components/Header";
 import AppContext from "../AppContext";
 
 export default function Admin() {
-  const [isRegistering, setIsRegistering] = useState(false);
+  // const [isRegistering, setIsRegistering] = useState(false);
 
   const { loggedIn, setLoggedIn, setAuthToken } = useContext(AppContext);
 
@@ -31,22 +30,11 @@ export default function Admin() {
         {loggedIn ? (
           <div>
             <Positions />
-            <Sessions />
             <Results />
-          </div>
-        ) : isRegistering ? (
-          <div>
-            <Register onLogin={handleLogin} />
-            <a onClick={() => setIsRegistering(false)}>
-              Already have an account? Log in!
-            </a>
           </div>
         ) : (
           <div>
             <Login onLogin={handleLogin} />
-            <a onClick={() => setIsRegistering(true)}>
-              No user account? Create one!
-            </a>
           </div>
         )}
       </div>

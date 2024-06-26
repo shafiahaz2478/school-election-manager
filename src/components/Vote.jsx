@@ -43,7 +43,7 @@ export default function Vote({ submissionHandler }) {
             id: candidate._id,
             name: candidate.name,
             grade: candidate.grade,
-            division: candidate.division,
+            section: candidate.section,
             chosen: false,
           })),
         chosenCandidate: null,
@@ -87,12 +87,11 @@ export default function Vote({ submissionHandler }) {
 
   const handleVoteConfirmation = (e) => {
     e.preventDefault();
+
     const votes = positions.map((position) => ({
       positionId: position.id,
       candidateId: position.chosenCandidate.id,
     }));
-    setIsDraft(false);
-
     submissionHandler(votes);
   };
 
@@ -112,7 +111,7 @@ export default function Vote({ submissionHandler }) {
                 >
                   <h3>{candidate.name}</h3>
                   <p>
-                    {candidate.grade} {candidate.division}
+                    {candidate.grade} {candidate.section}
                   </p>
                 </button>
               ))}
@@ -136,11 +135,14 @@ export default function Vote({ submissionHandler }) {
               <p>
                 {position.chosenCandidate.name},{" "}
                 {position.chosenCandidate.grade}{" "}
-                {position.chosenCandidate.division}
+                {position.chosenCandidate.section}
               </p>
             </li>
           ))}
       </ol>
+      <button type="button" onClick={() => setIsDraft(true)}>
+        Change Votes
+      </button>
       <button type="submit">Confirm</button>
     </form>
   );

@@ -110,7 +110,7 @@ function Candidates({ position }) {
   const [candidates, setCandidates] = useState([]);
   const [newCandidate, setNewCandidate] = useState("");
   const [newGrade, setNewGrade] = useState("");
-  const [newDivision, setNewDivision] = useState("");
+  const [newSection, setNewSection] = useState("");
 
   const fetchCandidates = async () => {
     try {
@@ -153,7 +153,7 @@ function Candidates({ position }) {
         body: JSON.stringify({
           name: newCandidate,
           grade: newGrade,
-          division: newDivision,
+          section: newSection,
           positionId: position._id,
         }),
       });
@@ -163,7 +163,7 @@ function Candidates({ position }) {
 
       setNewCandidate("");
       setNewGrade("");
-      setNewDivision("");
+      setNewSection("");
     } catch (error) {
       console.error("Error adding candidate:", error);
     }
@@ -193,7 +193,7 @@ function Candidates({ position }) {
         {candidates.map((candidate) => (
           <li key={candidate._id}>
             <p>
-              {candidate.name}, {candidate.grade} {candidate.division}
+              {candidate.name}, {candidate.grade} {candidate.section}
             </p>
             <button onClick={() => handleRemoveCandidate(candidate._id)}>
               Remove
@@ -220,9 +220,9 @@ function Candidates({ position }) {
         />
         <input
           type="text"
-          placeholder="Grade"
-          value={newDivision}
-          onChange={(e) => setNewDivision(e.target.value)}
+          placeholder="Section"
+          value={newSection}
+          onChange={(e) => setNewSection(e.target.value)}
           required
         />
         <button type="submit">Add Candidate</button>
