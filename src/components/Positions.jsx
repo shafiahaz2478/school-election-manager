@@ -41,7 +41,9 @@ export default function Positions() {
         body: JSON.stringify({ name: newPosition }),
       });
       const data = await response.json();
-      alert(data.message || data.error);
+      if (data.error) {
+        alert(data.error);
+      }
       setPositions([...positions, data.position]);
       setNewPosition("");
       fetchPositions();
@@ -88,7 +90,9 @@ function Position({ position, fetchPositions }) {
         },
       });
       const data = await response.json();
-      alert(data.message || data.error);
+      if (data.error) {
+        alert(data.error);
+      }
       fetchPositions();
     } catch (error) {
       console.error("Error removing position:", error);
@@ -111,6 +115,7 @@ function Candidates({ position }) {
   const [newCandidate, setNewCandidate] = useState("");
   const [newGrade, setNewGrade] = useState("");
   const [newSection, setNewSection] = useState("");
+  const [newImage, setNewImage] = useState(null);
 
   const fetchCandidates = async () => {
     try {
@@ -122,10 +127,13 @@ function Candidates({ position }) {
       });
       const data = await response.json();
       console.log("Fetched candidates");
-      setCandidates(
-        data.candidates.filter(
-          (candidate) => candidate.position._id === position._id,
-        ),
+      setCandidates(() =>
+        data.candidates
+          .filter((candidate) => candidate.position._id === position._id)
+          .map((candidate) => ({
+            ...candidate,
+            image: `${baseUrl}/api/candidates/${candidate._id}/image`,
+          })),
       );
     } catch (error) {
       console.error("Error fetching candidates:", error);
@@ -142,28 +150,33 @@ function Candidates({ position }) {
 
   const handleAddCandidate = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", newCandidate);
+    formData.append("grade", newGrade);
+    formData.append("section", newSection);
+    formData.append("positionId", position._id);
+    formData.append("image", newImage);
+
     try {
       const response = await fetch(`${baseUrl}/api/candidates`, {
         method: "POST",
         headers: {
           "ngrok-skip-browser-warning": "true",
-          "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
         },
-        body: JSON.stringify({
-          name: newCandidate,
-          grade: newGrade,
-          section: newSection,
-          positionId: position._id,
-        }),
+        body: formData,
       });
       const data = await response.json();
-      alert(data.message || data.error);
+      if (data.error) {
+        alert(data.error);
+      }
       fetchCandidates();
 
       setNewCandidate("");
       setNewGrade("");
       setNewSection("");
+      setNewImage(null);
     } catch (error) {
       console.error("Error adding candidate:", error);
     }
@@ -180,7 +193,9 @@ function Candidates({ position }) {
         },
       });
       const data = await response.json();
-      alert(data.message || data.error);
+      if (data.error) {
+        alert(data.error);
+      }
       fetchCandidates();
     } catch (error) {
       console.error("Error removing candidate:", error);
@@ -192,6 +207,7 @@ function Candidates({ position }) {
       <ul>
         {candidates.map((candidate) => (
           <li key={candidate._id}>
+            <img src={candidate.image} alt={candidate.name} />
             <p>
               {candidate.name}, {candidate.grade} {candidate.section}
             </p>
@@ -223,6 +239,11 @@ function Candidates({ position }) {
           placeholder="Section"
           value={newSection}
           onChange={(e) => setNewSection(e.target.value)}
+          required
+        />
+        <input
+          type="file"
+          onChange={(e) => setNewImage(e.target.files[0])}
           required
         />
         <button type="submit">Add Candidate</button>

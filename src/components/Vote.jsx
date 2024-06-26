@@ -44,6 +44,7 @@ export default function Vote({ submissionHandler }) {
             name: candidate.name,
             grade: candidate.grade,
             section: candidate.section,
+            image: `${baseUrl}/api/candidates/${candidate._id}/image`,
             chosen: false,
           })),
         chosenCandidate: null,
@@ -109,6 +110,7 @@ export default function Vote({ submissionHandler }) {
                   className={`vote-list-candidate ${candidate.chosen ? "chosen-candidate" : "unchosen-candidate"}`}
                   onClick={() => handleCandidateChoice(position, candidate)}
                 >
+                  <img src={candidate.image} alt={candidate.name} />
                   <h3>{candidate.name}</h3>
                   <p>
                     {candidate.grade} {candidate.section}
@@ -131,7 +133,11 @@ export default function Vote({ submissionHandler }) {
             <li key={position.id}>
               <p>
                 <strong>{position.name}</strong>:
-              </p>{" "}
+              </p>
+              <img
+                src={position.chosenCandidate.image}
+                alt={position.chosenCandidate.name}
+              />
               <p>
                 {position.chosenCandidate.name},{" "}
                 {position.chosenCandidate.grade}{" "}
