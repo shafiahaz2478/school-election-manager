@@ -117,7 +117,22 @@ function Candidates({ position }) {
   const [newSection, setNewSection] = useState("");
   const [newImage, setNewImage] = useState(null);
 
-  const fetchCandidates = async () => {
+  const fetchImage = useCallback(
+    async (id) => {
+      const response = await fetch(`${baseUrl}/api/candidates/${id}/image`, {
+        method: "GET",
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
+      const imageBlob = await response.blob();
+      const imageObjectURL = URL.createObjectURL(imageBlob);
+      return imageObjectURL;
+    },
+    [baseUrl],
+  );
+
+  const fetchCandidates = useCallback(async () => {
     try {
       const response = await fetch(`${baseUrl}/api/candidates`, {
         method: "GET",
@@ -127,26 +142,27 @@ function Candidates({ position }) {
       });
       const data = await response.json();
       console.log("Fetched candidates");
-      setCandidates(() =>
+
+      const candidatesWithImages = await Promise.all(
         data.candidates
           .filter((candidate) => candidate.position._id === position._id)
-          .map((candidate) => ({
-            ...candidate,
-            image: `${baseUrl}/api/candidates/${candidate._id}/image`,
-          })),
+          .map(async (candidate) => {
+            const image = await fetchImage(candidate._id);
+            return {
+              ...candidate,
+              image,
+            };
+          }),
       );
+      setCandidates(candidatesWithImages);
     } catch (error) {
       console.error("Error fetching candidates:", error);
     }
-  };
+  }, [baseUrl, position._id, fetchImage]);
 
-  const fetchCandidatesCallback = useCallback(fetchCandidates, [
-    baseUrl,
-    position._id,
-  ]);
   useEffect(() => {
-    fetchCandidatesCallback();
-  }, [fetchCandidatesCallback]);
+    fetchCandidates();
+  }, [fetchCandidates]);
 
   const handleAddCandidate = async (e) => {
     e.preventDefault();
