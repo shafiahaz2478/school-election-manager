@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import AppContext from "../AppContext.js";
+import AppContext from "../contexts/AppContext.js";
 
 export default function BackendConnection() {
   const { baseUrl, setBaseUrl } = useContext(AppContext);

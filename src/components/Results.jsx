@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import AppContext from "../AppContext.js";
+import AppContext from "../contexts/AppContext.js";
 
 export default function Results() {
   const { baseUrl, authToken } = useContext(AppContext);

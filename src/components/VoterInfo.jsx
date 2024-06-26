@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import AppContext from "../AppContext.js";
+import AppContext from "../contexts/AppContext.js";
 
 export default function VoterInfo({ infoHandler }) {
   const [voterType, setVoterType] = useState("student");

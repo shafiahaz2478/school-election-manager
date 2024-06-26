@@ -5,7 +5,7 @@ import VoterInfo from "../components/VoterInfo.jsx";
 import Vote from "../components/Vote.jsx";
 import Confirmation from "../components/Confirmation.jsx";
 
-import AppContext from "../AppContext.js";
+import AppContext from "../contexts/AppContext.js";
 
 export default function Election() {
   const [isVoting, setIsVoting] = useState(false);

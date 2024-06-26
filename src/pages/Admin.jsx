@@ -8,7 +8,7 @@ import Results from "../components/Results";
 
 import "../styles/Admin.css";
 import Header from "../components/Header";
-import AppContext from "../AppContext";
+import AppContext from "../contexts/AppContext";
 
 export default function Admin() {
   // const [isRegistering, setIsRegistering] = useState(false);

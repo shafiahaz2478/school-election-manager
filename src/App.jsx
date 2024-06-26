@@ -1,9 +1,8 @@
 import "./styles/App.css";
-
 import { useCallback, useEffect, useState } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-import AppContext from "./AppContext.js";
+import AppContext from "./contexts/AppContext.js";
+import { PositionsProvider } from "./contexts/PositionsContext.jsx";
 import routes from "./routes.jsx";
 
 function App() {
@@ -55,6 +54,7 @@ function App() {
       }
     }
   }, [baseUrl]);
+
   useEffect(() => {
     checkAdminPresent();
   }, [checkAdminPresent]);
@@ -72,7 +72,9 @@ function App() {
         setStaffPassword,
       }}
     >
-      <RouterProvider router={router} />
+      <PositionsProvider baseUrl={baseUrl}>
+        <RouterProvider router={router} />
+      </PositionsProvider>
     </AppContext.Provider>
   );
 }

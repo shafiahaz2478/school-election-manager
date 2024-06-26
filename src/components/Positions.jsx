@@ -1,32 +1,12 @@
-import { useCallback, useContext, useEffect, useState } from "react";
-import AppContext from "../AppContext.js";
+import { useContext, useState } from "react";
+import AppContext from "../contexts/AppContext.js";
+import PositionsContext from "../contexts/PositionsContext.jsx";
 
 export default function Positions() {
-  const [positions, setPositions] = useState([]);
   const [newPosition, setNewPosition] = useState("");
 
   const { baseUrl, authToken } = useContext(AppContext);
-
-  const fetchPositions = async () => {
-    try {
-      const response = await fetch(`${baseUrl}/api/positions`, {
-        method: "GET",
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-        },
-      });
-      const data = await response.json();
-      console.log("Fetched positions");
-      setPositions(data.positions);
-    } catch (error) {
-      console.error("Error fetching positions:", error);
-    }
-  };
-
-  const fetchPositionsCallback = useCallback(fetchPositions, [baseUrl]);
-  useEffect(() => {
-    fetchPositionsCallback();
-  }, [fetchPositionsCallback]);
+  const { positions, fetchPositions } = useContext(PositionsContext);
 
   const handleAddPosition = async (e) => {
     e.preventDefault();
@@ -44,9 +24,8 @@ export default function Positions() {
       if (data.error) {
         alert(data.error);
       }
-      setPositions([...positions, data.position]);
       setNewPosition("");
-      fetchPositions();
+      fetchPositions(); // Update the positions context
     } catch (error) {
       console.error("Error adding position:", error);
     }
@@ -57,8 +36,8 @@ export default function Positions() {
       <h3>Positions</h3>
       <ol>
         {positions.map((position) => (
-          <li key={position._id}>
-            <Position position={position} fetchPositions={fetchPositions} />
+          <li key={position.id}>
+            <Position position={position} />
           </li>
         ))}
       </ol>
@@ -76,12 +55,13 @@ export default function Positions() {
   );
 }
 
-function Position({ position, fetchPositions }) {
+function Position({ position }) {
   const { baseUrl, authToken } = useContext(AppContext);
+  const { fetchPositions } = useContext(PositionsContext);
 
   const handleRemovePosition = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/positions/${position._id}`, {
+      const response = await fetch(`${baseUrl}/api/positions/${position.id}`, {
         method: "DELETE",
         headers: {
           "ngrok-skip-browser-warning": "true",
@@ -93,7 +73,7 @@ function Position({ position, fetchPositions }) {
       if (data.error) {
         alert(data.error);
       }
-      fetchPositions();
+      fetchPositions(); // Update the positions context
     } catch (error) {
       console.error("Error removing position:", error);
     }
@@ -103,66 +83,19 @@ function Position({ position, fetchPositions }) {
     <>
       <h3>{position.name}</h3>
       <Candidates position={position} />
-      <button onClick={() => handleRemovePosition(position._id)}>Remove</button>
+      <button onClick={handleRemovePosition}>Remove</button>
     </>
   );
 }
 
 function Candidates({ position }) {
   const { baseUrl, authToken } = useContext(AppContext);
+  const { fetchPositions } = useContext(PositionsContext);
 
-  const [candidates, setCandidates] = useState([]);
   const [newCandidate, setNewCandidate] = useState("");
   const [newGrade, setNewGrade] = useState("");
   const [newSection, setNewSection] = useState("");
   const [newImage, setNewImage] = useState(null);
-
-  const fetchImage = useCallback(
-    async (id) => {
-      const response = await fetch(`${baseUrl}/api/candidates/${id}/image`, {
-        method: "GET",
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-        },
-      });
-      const imageBlob = await response.blob();
-      const imageObjectURL = URL.createObjectURL(imageBlob);
-      return imageObjectURL;
-    },
-    [baseUrl],
-  );
-
-  const fetchCandidates = useCallback(async () => {
-    try {
-      const response = await fetch(`${baseUrl}/api/candidates`, {
-        method: "GET",
-        headers: {
-          "ngrok-skip-browser-warning": "true",
-        },
-      });
-      const data = await response.json();
-      console.log("Fetched candidates");
-
-      const candidatesWithImages = await Promise.all(
-        data.candidates
-          .filter((candidate) => candidate.position._id === position._id)
-          .map(async (candidate) => {
-            const image = await fetchImage(candidate._id);
-            return {
-              ...candidate,
-              image,
-            };
-          }),
-      );
-      setCandidates(candidatesWithImages);
-    } catch (error) {
-      console.error("Error fetching candidates:", error);
-    }
-  }, [baseUrl, position._id, fetchImage]);
-
-  useEffect(() => {
-    fetchCandidates();
-  }, [fetchCandidates]);
 
   const handleAddCandidate = async (e) => {
     e.preventDefault();
@@ -171,7 +104,7 @@ function Candidates({ position }) {
     formData.append("name", newCandidate);
     formData.append("grade", newGrade);
     formData.append("section", newSection);
-    formData.append("positionId", position._id);
+    formData.append("positionId", position.id);
     formData.append("image", newImage);
 
     try {
@@ -187,7 +120,7 @@ function Candidates({ position }) {
       if (data.error) {
         alert(data.error);
       }
-      fetchCandidates();
+      fetchPositions(); // Update the positions context
 
       setNewCandidate("");
       setNewGrade("");
@@ -212,7 +145,7 @@ function Candidates({ position }) {
       if (data.error) {
         alert(data.error);
       }
-      fetchCandidates();
+      fetchPositions(); // Update the positions context
     } catch (error) {
       console.error("Error removing candidate:", error);
     }
@@ -221,13 +154,13 @@ function Candidates({ position }) {
   return (
     <>
       <ul>
-        {candidates.map((candidate) => (
-          <li key={candidate._id}>
+        {position.candidates.map((candidate) => (
+          <li key={candidate.id}>
             <img src={candidate.image} alt={candidate.name} />
             <p>
               {candidate.name}, {candidate.grade} {candidate.section}
             </p>
-            <button onClick={() => handleRemoveCandidate(candidate._id)}>
+            <button onClick={() => handleRemoveCandidate(candidate.id)}>
               Remove
             </button>
           </li>

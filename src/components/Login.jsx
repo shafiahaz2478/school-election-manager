@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 
-import AppContext from "../AppContext.js";
+import AppContext from "../contexts/AppContext.js";
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
