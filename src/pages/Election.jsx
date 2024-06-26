@@ -16,7 +16,12 @@ export default function Election() {
   const { baseUrl } = useContext(AppContext);
 
   const fetchSessions = async () => {
-    const res = await fetch(`${baseUrl}/api/sessions`);
+    const res = await fetch(`${baseUrl}/api/sessions`, {
+      method: "GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+      },
+    });
     const data = await res.json();
 
     if (data.error) {
@@ -49,6 +54,7 @@ export default function Election() {
     const response = await fetch(`${baseUrl}/api/votes`, {
       method: "POST",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

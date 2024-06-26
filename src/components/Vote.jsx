@@ -9,14 +9,24 @@ export default function Vote({ submissionHandler }) {
   const [isDraft, setIsDraft] = useState(true);
 
   const fetchPositions = async () => {
-    const positionResponse = await fetch(`${baseUrl}/api/positions`);
+    const positionResponse = await fetch(`${baseUrl}/api/positions`, {
+      method: "GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+      },
+    });
     const positionsData = await positionResponse.json();
     if (positionsData.error) {
       alert("Could not fetch positions");
       return;
     }
 
-    const candidateResponse = await fetch(`${baseUrl}/api/candidates`);
+    const candidateResponse = await fetch(`${baseUrl}/api/candidates`, {
+      method: "GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+      },
+    });
     const candidatesData = await candidateResponse.json();
     if (candidatesData.error) {
       alert("Could not fetch candidates");

@@ -10,6 +10,7 @@ export default function BackendConnection() {
   const handleNewConnection = (e) => {
     e.preventDefault();
     setBaseUrl(connectionUrl);
+    localStorage.setItem("baseUrl", connectionUrl);
   };
 
   return (

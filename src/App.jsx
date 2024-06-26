@@ -7,7 +7,11 @@ import AppContext from "./AppContext.js";
 import routes from "./routes.jsx";
 
 function App() {
-  const [baseUrl, setBaseUrl] = useState("http://localhost:5000");
+  const cachedBaseUrl = localStorage.getItem("baseUrl");
+
+  const [baseUrl, setBaseUrl] = useState(
+    cachedBaseUrl ? cachedBaseUrl : "http://localhost:3000",
+  );
   const [authToken, setAuthToken] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
 

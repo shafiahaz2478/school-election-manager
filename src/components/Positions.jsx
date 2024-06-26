@@ -9,7 +9,12 @@ export default function Positions() {
 
   const fetchPositions = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/positions`);
+      const response = await fetch(`${baseUrl}/api/positions`, {
+        method: "GET",
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
       const data = await response.json();
       console.log("Fetched positions");
       setPositions(data.positions);
@@ -29,6 +34,7 @@ export default function Positions() {
       const response = await fetch(`${baseUrl}/api/positions`, {
         method: "POST",
         headers: {
+          "ngrok-skip-browser-warning": "true",
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
         },
@@ -76,6 +82,7 @@ function Position({ position, fetchPositions }) {
       const response = await fetch(`${baseUrl}/api/positions/${position._id}`, {
         method: "DELETE",
         headers: {
+          "ngrok-skip-browser-warning": "true",
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
         },
@@ -107,7 +114,12 @@ function Candidates({ position }) {
 
   const fetchCandidates = async () => {
     try {
-      const response = await fetch(`${baseUrl}/api/candidates`);
+      const response = await fetch(`${baseUrl}/api/candidates`, {
+        method: "GET",
+        headers: {
+          "ngrok-skip-browser-warning": "true",
+        },
+      });
       const data = await response.json();
       console.log("Fetched candidates");
       setCandidates(
@@ -134,6 +146,7 @@ function Candidates({ position }) {
       const response = await fetch(`${baseUrl}/api/candidates`, {
         method: "POST",
         headers: {
+          "ngrok-skip-browser-warning": "true",
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
         },
@@ -161,6 +174,7 @@ function Candidates({ position }) {
       const response = await fetch(`${baseUrl}/api/candidates/${candidateId}`, {
         method: "DELETE",
         headers: {
+          "ngrok-skip-browser-warning": "true",
           "Content-Type": "application/json",
           Authorization: `Bearer ${authToken}`,
         },

@@ -12,6 +12,7 @@ export default function Results() {
       method: "GET",
       headers: {
         Authorization: `Bearer ${authToken}`,
+        "ngrok-skip-browser-warning": "true",
       },
     });
     const data = await response.json();
@@ -29,7 +30,7 @@ export default function Results() {
       <ul>
         {results !== null &&
           results.map((result) => (
-            <li key={result.id}>
+            <li key={result._id.candidate}>
               {result.candidate} [{result.position}]: {result.totalVotes} votes
             </li>
           ))}

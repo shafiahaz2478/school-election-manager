@@ -14,7 +14,12 @@ export default function Sessions() {
   });
 
   const fetchSessions = async () => {
-    const response = await fetch(`${baseUrl}/api/sessions`);
+    const response = await fetch(`${baseUrl}/api/sessions`, {
+      method: "GET",
+      headers: {
+        "ngrok-skip-browser-warning": "true",
+      },
+    });
     const data = await response.json();
     setSessions(data.sessions);
   };
@@ -35,6 +40,7 @@ export default function Sessions() {
     const response = await fetch(`${baseUrl}/api/sessions`, {
       method: "POST",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         "Content-Type": "application/json",
         Authorization: `Bearer ${authToken}`,
       },
@@ -54,6 +60,7 @@ export default function Sessions() {
     await fetch(`${baseUrl}/api/sessions/${id}`, {
       method: "DELETE",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${authToken}`,
       },
     });
@@ -70,6 +77,7 @@ export default function Sessions() {
     const response = await fetch(`${baseUrl}/api/sessions/${id}`, {
       method: "PUT",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json",
       },
@@ -95,6 +103,7 @@ export default function Sessions() {
     const response = await fetch(`${baseUrl}/api/sessions/${id}`, {
       method: "PUT",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${authToken}`,
         "Content-Type": "application/json",
       },
