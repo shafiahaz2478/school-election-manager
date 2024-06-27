@@ -1,0 +1,255 @@
+.voter-info form {
+  display: flex;
+  flex-direction: column;
+}
+
+.voter-type {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background-color: var(--yellow);
+  border-radius: 16px;
+}
+
+.voter-type button {
+  margin: 8px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: transparent;
+  border: none;
+  color: black;
+  position: relative;
+}
+
+.voter-type button p {
+  position: relative;
+  z-index: 2;
+}
+
+.voter-type-slider {
+  background-color: var(--peach);
+  border-radius: 16px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  transition: transform 0.2s ease-in-out;
+}
+
+.voter-type-slider.staff {
+  transform: translateX(107.5%);
+}
+
+.voter-info label {
+  display: grid;
+  grid-template-columns: 150px auto;
+  grid-gap: 16px;
+  align-items: center;
+
+  margin: 16px 0;
+}
+
+.voter-info label strong {
+  font-size: 1.25rem;
+}
+
+.info-submit {
+  margin-top: 32px;
+  font-size: 1.25rem;
+  background-color: var(--peach);
+  border: 1px solid var(--subtext);
+}
+
+.vote-draft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.vote-draft .positions {
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 32px;
+  justify-items: center;
+  text-align: center;
+}
+
+.vote-draft .candidate-vote-list {
+  background-color: var(--yellow);
+  border-radius: 16px;
+  border: 2px solid var(--subtext);
+}
+
+.vote-draft .candidate-vote-list div {
+  padding: 32px 64px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 32px;
+  justify-items: center;
+  text-align: center;
+}
+
+.vote-draft .position-title {
+  font-size: 2rem;
+  margin: 0 32px;
+}
+
+.vote-draft .candidate-vote-list button {
+  border-radius: 16px;
+  border: 1px solid var(--subtext);
+  transition: transform 250ms ease-in-out;
+}
+
+.vote-draft button.chosen-candidate {
+  background-color: var(--green);
+  border-width: 2px;
+  transform: scale(1.05);
+}
+
+.vote-draft img {
+  border-radius: 16px;
+}
+
+.vote-draft .vote-list-candidate-name {
+  font-size: 1.4rem;
+}
+
+.vote-draft .vote-list-candidate-info {
+  font-size: 1.2rem;
+}
+
+.submit-draft,
+.change-votes {
+  margin-top: 64px;
+  padding: 16px 64px;
+  font-size: 1.5rem;
+  background-color: var(--peach);
+  border: 1px solid var(--subtext);
+}
+
+.vote-confirm-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 32px;
+}
+
+.vote-confirm-list-item {
+  background-color: var(--yellow);
+  padding: 16px;
+  border-radius: 16px;
+  border: 2px solid var(--subtext);
+
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 16px;
+}
+
+.vote-confirm-list-item .candidate-image {
+  grid-row: 1 / 3;
+  border-radius: 16px;
+  border: 1px solid var(--subtext);
+}
+
+.vote-confirm-list-item .candidate-position {
+  font-size: 2rem;
+}
+
+.vote-confirm-list-item .candidate {
+  align-self: end;
+}
+
+.vote-confirm-list-item .candidate-name {
+  font-size: 1.75rem;
+}
+
+.vote-confirm-list-item .candidate-info {
+  font-size: 1.5rem;
+}
+
+.confirm-votes {
+  margin-top: 64px;
+  padding: 16px 64px;
+  font-size: 1.5rem;
+  background-color: var(--green);
+  border: 1px solid var(--subtext);
+}
+
+.vote-confirm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.confirm-actions {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 100px;
+}
+
+.thank-you {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.thank-you .container-title {
+  margin: 0;
+}
+
+.thank-you img {
+  width: 250px;
+  height: auto;
+  margin: 32px;
+  border-radius: 16px;
+}
+
+blockquote {
+  position: relative;
+  padding: 24px;
+  padding-top: 32px;
+  font-style: italic;
+  font-size: 1.5rem;
+  background-color: var(--yellow);
+  border-radius: 16px;
+  border: 2px solid var(--peach);
+  text-align: center;
+  margin-top: 16px;
+  max-width: 50vw;
+}
+
+blockquote::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 8px;
+}
+
+blockquote::after {
+  content: "❝";
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  top: -2px;
+  transform: translate(-50%, -50%);
+  width: 1.3em;
+  height: 1.3em;
+  background: white;
+  box-shadow: 0 4px 5px -1px hsla(0 0% 0% / 20%);
+  border-radius: 999px;
+  display: grid;
+  place-content: center;
+  padding-top: 0.5em;
+  color: var(--yellow);
+  font-size: 36px;
+  font-style: normal;
+  text-indent: 0;
+}

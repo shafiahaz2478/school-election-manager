@@ -34,7 +34,7 @@ const Login = ({ onLogin }) => {
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <form className="login-form" onSubmit={handleLogin}>
         <input
           type="text"
           placeholder="Username"

@@ -1,11 +1,13 @@
 import { useContext, useState } from "react";
 
-import Header from "../components/Header.jsx";
 import VoterInfo from "../components/VoterInfo.jsx";
 import Vote from "../components/Vote.jsx";
 import Confirmation from "../components/Confirmation.jsx";
 
 import AppContext from "../contexts/AppContext.js";
+import Container from "../components/Container.jsx";
+
+import "../styles/Election.css";
 
 export default function Election() {
   const [isVoting, setIsVoting] = useState(false);
@@ -51,16 +53,18 @@ export default function Election() {
   };
 
   return (
-    <div>
-      <Header />
-
-      {isVoting ? (
-        <Vote submissionHandler={handleVoteSubmission} />
-      ) : voteDone ? (
-        <Confirmation stopper={() => setVoteDone(false)} timeout={5} />
-      ) : (
-        <VoterInfo infoHandler={handleVoterInfo} />
-      )}
-    </div>
+    <Container
+      child={
+        <div className="container">
+          {isVoting ? (
+            <Vote submissionHandler={handleVoteSubmission} />
+          ) : voteDone ? (
+            <Confirmation stopper={() => setVoteDone(false)} timeout={5} />
+          ) : (
+            <VoterInfo infoHandler={handleVoterInfo} />
+          )}
+        </div>
+      }
+    />
   );
 }

@@ -1,0 +1,41 @@
+.container.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.link {
+  color: var(--subtext);
+  font-size: 1.5rem;
+  display: block;
+  margin: 64px 32px;
+  justify-self: center;
+  border: 2px solid var(--yellow);
+  padding: 16px 32px;
+  border-radius: 16px;
+
+  text-align: center;
+
+  transition: all 750ms;
+}
+
+.link:hover {
+  background-color: var(--yellow);
+  transform: scale(1.05);
+  color: var(--peach);
+}
+
+.link.vote {
+  align-self: flex-end;
+}
+
+.link.admin {
+  align-self: flex-start;
+}
+
+.backend form {
+  display: grid;
+  grid-template-columns: max-content auto min-content;
+  align-items: center;
+  grid-gap: 16px;
+}

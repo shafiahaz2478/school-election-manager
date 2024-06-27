@@ -6,8 +6,17 @@ export default function Confirmation({ timeout, stopper }) {
   }, [timeout, stopper]);
 
   return (
-    <div>
-      <h1>Vote done</h1>
+    <div className="thank-you">
+      <h1 className="container-title">THANK YOU</h1>
+      <h2>for voting</h2>
+      <img src="/voting.gif" alt="Person voting" />
+      <div className="quote">
+        <blockquote>
+          If your actions inspire others to dream more, learn more, do more and
+          become more, you are a leader.
+        </blockquote>
+      </div>
+      <div className="timer-gauge"></div>
     </div>
   );
 }

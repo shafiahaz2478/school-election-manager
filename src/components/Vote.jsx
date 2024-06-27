@@ -48,63 +48,90 @@ export default function Vote({ submissionHandler }) {
       positionId: position.id,
       candidateId: position.chosenCandidate.id,
     }));
+
+    for (const position of positions) {
+      for (const candidate of position.candidates) {
+        candidate.chosen = false;
+      }
+      position.chosenCandidate = null;
+    }
     submissionHandler(votes);
   };
 
   return isDraft ? (
     <form className="vote-draft">
-      <div>
+      <h1 className="container-title">Vote for your candidates</h1>
+      <div className="positions">
         {positions &&
           positions.map((position) => (
             <ul key={position.id} className="candidate-vote-list">
-              <h2>{position.name}</h2>
-              {position.candidates.map((candidate) => (
-                <button
-                  key={candidate.id}
-                  type="button"
-                  className={`vote-list-candidate ${candidate.chosen ? "chosen-candidate" : "unchosen-candidate"}`}
-                  onClick={() => handleCandidateChoice(position, candidate)}
-                >
-                  <img src={candidate.image} alt={candidate.name} />
-                  <h3>{candidate.name}</h3>
-                  <p>
-                    {candidate.grade} {candidate.section}
-                  </p>
-                </button>
-              ))}
+              <h2 className="position-title">{position.name}</h2>
+              <div>
+                {position.candidates.map((candidate) => (
+                  <button
+                    key={candidate.id}
+                    type="button"
+                    className={`vote-list-candidate ${candidate.chosen ? "chosen-candidate" : "unchosen-candidate"}`}
+                    onClick={() => handleCandidateChoice(position, candidate)}
+                  >
+                    <img src={candidate.image} alt={candidate.name} />
+                    <h3 className="vote-list-candidate-name">
+                      {candidate.name}
+                    </h3>
+                    <p className="vote-list-candidate-info">
+                      {candidate.grade} {candidate.section}
+                    </p>
+                  </button>
+                ))}
+              </div>
             </ul>
           ))}
       </div>
-      <button type="button" onClick={handleDraftSubmission}>
+      <button
+        type="button"
+        className="submit-draft"
+        onClick={handleDraftSubmission}
+      >
         Submit
       </button>
     </form>
   ) : (
     <form className="vote-confirm" onSubmit={handleVoteConfirmation}>
-      <h1>Confirm Vote</h1>
-      <ol className="vote-confirm-list">
+      <h1 className="container-title">Confirm Vote</h1>
+      <ul className="vote-confirm-list">
         {positions &&
           positions.map((position) => (
-            <li key={position.id}>
-              <p>
-                <strong>{position.name}</strong>:
-              </p>
+            <li key={position.id} className="vote-confirm-list-item">
               <img
+                className="candidate-image"
                 src={position.chosenCandidate.image}
                 alt={position.chosenCandidate.name}
               />
-              <p>
-                {position.chosenCandidate.name},{" "}
-                {position.chosenCandidate.grade}{" "}
-                {position.chosenCandidate.section}
-              </p>
+              <strong className="candidate-position">{position.name}</strong>
+              <div className="candidate">
+                <p className="candidate-name">
+                  {position.chosenCandidate.name}
+                </p>
+                <p className="candidate-info">
+                  {position.chosenCandidate.grade}{" "}
+                  {position.chosenCandidate.section}
+                </p>
+              </div>
             </li>
           ))}
-      </ol>
-      <button type="button" onClick={() => setIsDraft(true)}>
-        Change Votes
-      </button>
-      <button type="submit">Confirm</button>
+      </ul>
+      <div className="confirm-actions">
+        <button
+          type="button"
+          className="change-votes"
+          onClick={() => setIsDraft(true)}
+        >
+          Change Votes
+        </button>
+        <button type="submit" className="confirm-votes">
+          Confirm
+        </button>
+      </div>
     </form>
   );
 }

@@ -14,11 +14,14 @@ export default function BackendConnection() {
   };
 
   return (
-    <div>
-      <h3>Backend URL</h3>
+    <div className="backend">
       <form onSubmit={handleNewConnection}>
+        <label htmlFor="url">
+          <strong>Backend URL: </strong>
+        </label>
         <input
           type="text"
+          name="url"
           value={connectionUrl}
           onChange={(e) => setConnectionUrl(e.target.value)}
         />

@@ -10,9 +10,16 @@ export default function VoterInfo({ infoHandler }) {
 
   const { staffPassword } = useContext(AppContext);
 
+  const staffSections = [
+    "Foundation",
+    "Preparatory",
+    "Middle School",
+    "Secondary",
+  ];
+
   return (
-    <div>
-      <h1>Voter Information</h1>
+    <div className="voter-info">
+      <h1 className="container-title">Voter Information</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -30,57 +37,98 @@ export default function VoterInfo({ infoHandler }) {
           }
         }}
       >
-        <label>
-          Voter Type:
-          <select
-            defaultValue={"student"}
-            onChange={(e) => setVoterType(e.target.value)}
+        <div className="voter-type">
+          <button
+            type="button"
+            onClick={() => {
+              setVoterType("student");
+              if (staffSections.includes(voterSection)) {
+                setVoterSection("");
+              }
+            }}
           >
-            <option value="student">Student</option>
-            <option value="staff">Staff</option>
-          </select>
-        </label>
+            <div
+              className={
+                "voter-type-slider" + (voterType === "staff" ? " staff" : "")
+              }
+            ></div>
+            <p>Student</p>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setVoterType("staff");
+              if (!staffSections.includes(voterSection)) {
+                setVoterSection(staffSections[0]);
+              }
+            }}
+          >
+            <p>Staff</p>
+          </button>
+        </div>
         <label>
-          Name:
+          <strong>Name</strong>
           <input
             type="text"
             name="name"
+            autoComplete="off"
             value={voterName}
             onChange={(e) => setVoterName(e.target.value)}
+            required
           />
         </label>
         {voterType === "student" && (
           <label>
-            Class:
+            <strong>Class</strong>
             <input
-              type="text"
+              type="number"
               name="grade"
+              autoComplete="off"
               value={voterGrade}
               onChange={(e) => setVoterGrade(e.target.value)}
+              required
             />
           </label>
         )}
         <label>
-          {voterType === "student" ? "Section: " : "Staff Section: "}
-          <input
-            type="text"
-            name="section"
-            value={voterSection}
-            onChange={(e) => setVoterSection(e.target.value)}
-          />
+          <strong>Section</strong>
+          {voterType === "student" ? (
+            <input
+              type="text"
+              name="section"
+              autoComplete="off"
+              value={voterSection}
+              onChange={(e) => setVoterSection(e.target.value)}
+              required
+            />
+          ) : (
+            <select
+              value={voterSection}
+              onChange={(e) => setVoterSection(e.target.value)}
+            >
+              {staffSections.map((section) => (
+                <option key={section} value={section}>
+                  {section} Level
+                </option>
+              ))}
+            </select>
+          )}
         </label>
         {voterType === "staff" && (
           <label>
-            Staff Password:
+            <strong>Staff Password</strong>
             <input
-              type="text"
+              type="password"
               name="password"
               value={staffPasswordInput}
               onChange={(e) => setStaffPasswordInput(e.target.value)}
+              required
             />
           </label>
         )}
-        <button type="submit">Vote</button>
+        <button type="submit" className="info-submit">
+          Vote
+        </button>
       </form>
     </div>
   );

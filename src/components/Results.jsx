@@ -39,16 +39,17 @@ export default function Results() {
     }, {});
 
     return (
-      <div>
-        <h3>{title}</h3>
+      <div className="result-section">
+        <h3 className="result-section-title">{title}</h3>
         {results.length === 0 && <p>No results available</p>}
         {Object.entries(groupedResults).map(([position, candidates]) => (
-          <div key={position}>
+          <div key={position} className="position-result">
             <h4>{position}</h4>
             <ul>
               {candidates.map((candidate) => (
                 <li key={candidate._id.candidate}>
-                  {candidate.candidate}: {candidate.totalVotes} votes
+                  {candidate.candidate}: <strong>{candidate.totalVotes}</strong>{" "}
+                  votes
                 </li>
               ))}
             </ul>
@@ -59,10 +60,12 @@ export default function Results() {
   };
 
   return (
-    <div>
+    <>
       <h2>Results</h2>
-      {renderResults("Student Votes", results.studentResults)}
-      {renderResults("Staff Votes", results.staffResults)}
-    </div>
+      <div className="results">
+        {renderResults("Student Votes", results.studentResults)}
+        {renderResults("Staff Votes", results.staffResults)}
+      </div>
+    </>
   );
 }

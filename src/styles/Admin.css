@@ -1,5 +1,90 @@
-#base {
-  min-height: 100%;
+.container.admin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.container.admin h2 {
+  font-size: 2rem;
+}
+
+.login-form {
   display: grid;
-  grid-template-rows: min-content auto min-content;
+  grid-auto-flow: column;
+  grid-gap: 8px;
+  margin: 32px 0;
+  align-items: start;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+.container.admin .candidate-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 16px;
+}
+
+.container.admin .position {
+  margin: 32px 0;
+}
+
+.container.admin .candidate-list-item {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  grid-template-rows: repeat(3, min-content);
+  grid-auto-flow: column;
+  grid-gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  margin: 8px;
+  justify-items: center;
+
+  background-color: var(--yellow);
+}
+
+.container.admin .candidate-list-item img {
+  grid-row: 1 / 4;
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+}
+
+.container.admin .candidate-list-item button {
+  width: min-content;
+  height: min-content;
+}
+
+.container.admin .candidate-list-item .name {
+  font-size: 1.5rem;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 32px;
+}
+
+.result-section {
+  background-color: var(--yellow);
+  padding: 32px;
+  border-radius: 16px;
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 16px;
+}
+
+.result-section-title {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.position-result {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: var(--peach);
 }

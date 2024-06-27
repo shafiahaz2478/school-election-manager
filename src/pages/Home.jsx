@@ -1,19 +1,26 @@
 import { Link } from "react-router-dom";
 
-import Header from "../components/Header";
+import "../styles/Home.css";
+
 import BackendConnection from "../components/BackendConnection.jsx";
+import Container from "../components/Container.jsx";
 
 export default function Home() {
   return (
-    <div>
-      <Header />
-      <BackendConnection />
-      <Link to="admin" className="link">
-        Admin Portal
-      </Link>
-      <Link to="vote" className="link">
-        Voting Portal
-      </Link>
-    </div>
+    <Container
+      child={
+        <div className="container home">
+          <div className="links">
+            <Link to="vote" className="link vote">
+              Voting Portal
+            </Link>
+            <Link to="admin" className="link admin">
+              Admin Portal
+            </Link>
+          </div>
+          <BackendConnection />
+        </div>
+      }
+    />
   );
 }

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useContext } from "react";
 
 import Login from "../components/Login";
@@ -7,8 +6,8 @@ import Positions from "../components/Positions";
 import Results from "../components/Results";
 
 import "../styles/Admin.css";
-import Header from "../components/Header";
 import AppContext from "../contexts/AppContext";
+import Container from "../components/Container";
 
 export default function Admin() {
   // const [isRegistering, setIsRegistering] = useState(false);
@@ -21,26 +20,24 @@ export default function Admin() {
   };
 
   return (
-    <div>
-      <Header />
-      <header>
-        <h1>Administration Page</h1>
-      </header>
-      <div>
-        {loggedIn ? (
+    <Container
+      child={
+        <div className="container admin">
+          <h1 className="container-title">Administration Page</h1>
           <div>
-            <Positions />
-            <Results />
+            {loggedIn ? (
+              <div>
+                <Positions />
+                <Results />
+              </div>
+            ) : (
+              <div>
+                <Login onLogin={handleLogin} />
+              </div>
+            )}
           </div>
-        ) : (
-          <div>
-            <Login onLogin={handleLogin} />
-          </div>
-        )}
-      </div>
-      <footer>
-        <Link to="/">Go back</Link>
-      </footer>
-    </div>
+        </div>
+      }
+    />
   );
 }

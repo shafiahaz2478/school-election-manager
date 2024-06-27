@@ -32,11 +32,11 @@ export default function Positions() {
   };
 
   return (
-    <div className="positions">
-      <h3>Positions</h3>
+    <div>
+      <h2>Positions</h2>
       <ol>
         {positions.map((position) => (
-          <li key={position.id}>
+          <li key={position.id} className="position">
             <Position position={position} />
           </li>
         ))}
@@ -152,13 +152,14 @@ function Candidates({ position }) {
   };
 
   return (
-    <>
-      <ul>
+    <div>
+      <ul className="candidate-list">
         {position.candidates.map((candidate) => (
-          <li key={candidate.id}>
+          <li key={candidate.id} className="candidate-list-item">
             <img src={candidate.image} alt={candidate.name} />
+            <p className="name">{candidate.name}</p>
             <p>
-              {candidate.name}, {candidate.grade} {candidate.section}
+              {candidate.grade} {candidate.section}
             </p>
             <button onClick={() => handleRemoveCandidate(candidate.id)}>
               Remove
@@ -197,6 +198,6 @@ function Candidates({ position }) {
         />
         <button type="submit">Add Candidate</button>
       </form>
-    </>
+    </div>
   );
 }
