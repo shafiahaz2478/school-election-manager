@@ -8,7 +8,7 @@ export default function Confirmation({ timeout, stopper }) {
   return (
     <div className="thank-you">
       <h1 className="container-title">THANK YOU</h1>
-      <h2>for voting</h2>
+      <h2>for your valuable vote!</h2>
       <img src="/voting.gif" alt="Person voting" />
       <div className="quote">
         <blockquote>
